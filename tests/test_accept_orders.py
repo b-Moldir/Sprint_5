@@ -20,24 +20,24 @@ class TestAcceptOrders:
         response_json2 = orders_methods.post_orders(BODY_DATA_1)
         response2 = response_json2[1]
         order_id = response2.get('track')
-        status_code, response_json = orders_methods.accept_order(order_id, '')
-        assert status_code == 400 and response_json
+        response = orders_methods.accept_order(order_id, '')
+        assert (response[0] == 400 and response[1]["message"] == "Недостаточно данных для поиска")
 
     def test_incorrect_courier_id_response_error(self, courier_methods, orders_methods):
         courier_id = 213
         response_json2 = orders_methods.post_orders(BODY_DATA_1)
         response2 = response_json2[1]
         order_id = response2.get('track')
-        status_code, response_json = orders_methods.accept_order(order_id, courier_id)
-        assert status_code == 404 and response_json
+        response = orders_methods.accept_order(order_id, courier_id)
+        assert (response[0] == 404 and response[1]["message"] == "Курьера с таким id не существует")
 
     def test_without_order_id_response_error(self, courier_methods, orders_methods):
         payload = courier_methods.register_new_courier_and_return_login_password()
         response_json = courier_methods.authorize_courier(payload)
         response = response_json[1]
         courier_id = response.get('id')
-        status_code, response_json = orders_methods.accept_order_without_order_id(courier_id)
-        assert status_code == 400 and response_json
+        response = orders_methods.accept_order_without_order_id(courier_id)
+        assert (response[0] == 400 and response[1]["message"] == "Недостаточно данных для поиска")
 
 
     def test_incorrect_order_id_response_error(self, courier_methods, orders_methods):
@@ -46,5 +46,5 @@ class TestAcceptOrders:
         response = response_json[1]
         courier_id = response.get('id')
         order_id = 954574
-        status_code, response_json = orders_methods.accept_order(order_id, courier_id)
-        assert status_code == 404 and response_json
+        response = orders_methods.accept_order(order_id, courier_id)
+        assert (response[0] == 404 and response[1]["message"] == "Заказа с таким id не существует")
