@@ -1,4 +1,5 @@
 from helpers import create_courier_payload
+from data import PAYLOAD, INCORRECT_LOGIN, INCORRECT_PASSWORD, PAYLOAD_ONLY_PASSWORD
 
 
 class TestAuthorizeCourier:
@@ -9,53 +10,23 @@ class TestAuthorizeCourier:
         assert status_code == 200 and response_json
 
     def test_enter_wrong_login_response_error(self, courier_methods):
-        payload = {
-            "login": "saske",
-            "password": 1234
-        }
-        courier_methods.create_courier(payload)
-
-        incorrect_payload = {
-            "login": "privet",
-            "password": 1234
-        }
-        status_code, response_json = courier_methods.authorize_courier(incorrect_payload)
+        courier_methods.create_courier(PAYLOAD)
+        status_code, response_json = courier_methods.authorize_courier(INCORRECT_LOGIN)
         assert status_code == 404 and response_json
 
     def test_enter_wrong_password_response_error(self, courier_methods):
-        payload = {
-            "login": "saske",
-            "password": 1234
-        }
-        courier_methods.create_courier(payload)
-
-        incorrect_payload = {
-            "login": "saske",
-            "password": 5674
-        }
-        status_code, response_json = courier_methods.authorize_courier(incorrect_payload)
+        courier_methods.create_courier(PAYLOAD)
+        status_code, response_json = courier_methods.authorize_courier(INCORRECT_PASSWORD)
         assert status_code == 404 and response_json
 
     def test_missing_field_response_error(self, courier_methods):
-        payload = {
-            "password": 1234
-        }
-        courier_methods.create_courier(payload)
-        status_code, response_json = courier_methods.authorize_courier(payload)
+        courier_methods.create_courier(PAYLOAD_ONLY_PASSWORD)
+        status_code, response_json = courier_methods.authorize_courier(PAYLOAD_ONLY_PASSWORD)
         assert status_code == 400 and response_json
 
     def test_authorize_nonexistent_courier(self, courier_methods):
-        payload = {
-            "login": "saske",
-            "password": 1234
-        }
-        courier_methods.create_courier(payload)
-
-        incorrect_payload = {
-            "login": "privet",
-            "password": 1234
-        }
-        status_code, response_json = courier_methods.authorize_courier(incorrect_payload)
+        courier_methods.create_courier(PAYLOAD)
+        status_code, response_json = courier_methods.authorize_courier(INCORRECT_LOGIN)
         assert status_code == 404 and response_json
 
     def test_successfull_response_id(self, courier_methods):

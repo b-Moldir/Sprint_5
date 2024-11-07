@@ -15,6 +15,11 @@ class OrdersMethods:
         response = requests.put(f'{BASE_URL}{ORDERS_URL}{ACCEPT_URL}{order_id}?courierId={courier_id}')
         return response.status_code, response.json()
 
+    def accept_order_without_order_id(self, courier_id):
+        response = requests.put(f'{BASE_URL}{ORDERS_URL}{ACCEPT_URL}{courier_id}')
+        return response.status_code, response.json()
+
+
     def get_order_by_number(self, order_id):
         response = requests.get(f'{BASE_URL}{ORDERS_URL}{TRACK_URL}?t={order_id}')
         return response.status_code, response.json()

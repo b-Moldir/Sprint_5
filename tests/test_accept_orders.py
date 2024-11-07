@@ -1,5 +1,6 @@
-from data import BODY_DATA_1
+import requests
 
+from data import BODY_DATA_1, BASE_URL, ORDERS_URL, ACCEPT_URL
 
 
 class TestAcceptOrders:
@@ -35,8 +36,9 @@ class TestAcceptOrders:
         response_json = courier_methods.authorize_courier(payload)
         response = response_json[1]
         courier_id = response.get('id')
-        status_code, response_json = orders_methods.accept_order('', courier_id)
-        assert status_code == 404 and response_json
+        status_code, response_json = orders_methods.accept_order_without_order_id(courier_id)
+        assert status_code == 400 and response_json
+
 
     def test_incorrect_order_id_response_error(self, courier_methods, orders_methods):
         payload = courier_methods.register_new_courier_and_return_login_password()

@@ -54,3 +54,18 @@ BODY_DATA_4 = {
     "comment": "Saske, come back to Konoha",
     "color": []
 }
+PAYLOAD = {
+            "login": "saske",
+            "password": 1234
+        }
+INCORRECT_LOGIN = {
+            "login": "privet",
+            "password": 1234
+        }
+INCORRECT_PASSWORD = {
+            "login": "saske",
+            "password": 5674
+        }
+PAYLOAD_ONLY_PASSWORD = {
+            "password": 1234
+        }
